@@ -2,11 +2,12 @@
 
 -- How many such routes are there through a 20×20 grid?
 
-numPaths :: Int -> Int -> Int -- takes three days, need a better method
-numPaths 0 0 = 0
-numPaths 0 _ = 1
-numPaths _ 0 = 1
-numPaths x y = numPaths (x - 1) y + numPaths x (y - 1)
+getPaths :: Int -> Int -> Int
+getPaths 0 _ = 1
+getPaths _ 0 = 1
+getPaths x y = paths !! (y - 1) !! x + paths !! y !! (x - 1)
+
+paths = [[getPaths a b | a <- [0..]] | b <- [0..]]
 
 p015 = do
-    print $ numPaths 20 20
+    print $ getPaths 20 20
