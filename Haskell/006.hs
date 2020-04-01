@@ -10,5 +10,12 @@
 
 -- Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 
+sumOfSquares :: Int -> Int
+sumOfSquares 0 = 0
+sumOfSquares n = n^2 + sumOfSquares $ n - 1
+
+squareOfSum :: Int -> Int
+squareOfSum n = (sum [1..n])^2
+
 p006 = do
-    print $ (^2) (sum [1..100]) - sum (map (^2) [1..100])
+    print $ squareOfSum 100 - sumOfSquares 100
