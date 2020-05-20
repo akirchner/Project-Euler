@@ -9,5 +9,5 @@ getPaths x y = paths !! (y - 1) !! x + paths !! y !! (x - 1)
 
 paths = [[getPaths a b | a <- [0..]] | b <- [0..]]
 
-p015 = do
+main = do
     print $ getPaths 20 20

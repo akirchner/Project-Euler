@@ -2,7 +2,7 @@
 
 -- Find the sum of all the primes below two million.
 
-isPrime :: Int -> Bool -- change this to use primes.
+isPrime :: Int -> Bool
 isPrime 0 = False
 isPrime 1 = False
 isPrime 2 = True
@@ -10,5 +10,5 @@ isPrime x = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegr
 
 primes = filter isPrime [1..]
 
-p010 = do
+main = do
     print $ sum $ takeWhile (< 2000000) primes

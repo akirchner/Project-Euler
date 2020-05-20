@@ -7,5 +7,5 @@ import Data.Char
 getDigits :: Integer -> [Int]
 getDigits n = map (\x -> ord x - ord '0') $ show n
 
-p016 = do
+main = do
     print $ sum $ getDigits $ 2 ^ 1000

@@ -5,7 +5,8 @@
 isPrime :: Int -> Bool
 isPrime 0 = False
 isPrime 1 = False
-isPrime x = not $ or $ map (==0) [mod x p | p <- [2..(div x 2)]]
+isPrime 2 = True
+isPrime x = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegral x)) . fromIntegral) primes]
 
 primes = filter isPrime [1..]
 
@@ -15,11 +16,5 @@ primeFactors x = checkFactors x primes
           checkFactors n pp@(p:ps) | mod n p == 0 = p : checkFactors (div n p) pp
                                    | otherwise    = checkFactors n ps
 
-maxList :: Ord a => [a] -> a
-maxList (x:xs) = maxList' x xs
-    where maxList' m [] = m
-          maxList' m (n:ns) | n > m     = maxList' n ns
-                            | otherwise = maxList' m ns
-
-p003 = do
-    print $ maxList $ primeFactors 600851475143
+main = do
+    print $ maximum $ primeFactors 600851475143

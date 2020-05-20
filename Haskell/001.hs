@@ -9,5 +9,5 @@ merge xx@(x:xs) yy@(y:ys) | x == y = x : merge xs ys
                           | x < y  = x : merge xs yy
                           | y < x  = y : merge xx ys
 
-p001 = do
+main = do
     print $ sum $ merge [3, 6..999] [5, 10..999]

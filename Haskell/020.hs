@@ -14,5 +14,5 @@ fact n = n * fact (n - 1)
 getDigits :: Integer -> [Int]
 getDigits n = map (\x -> ord x - ord '0') $ show n
 
-p020 = do
+main = do
     print $ sum $ getDigits $ fact 100

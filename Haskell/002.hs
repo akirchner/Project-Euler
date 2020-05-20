@@ -7,5 +7,5 @@
 fib :: Num a => a -> a -> [a]
 fib x y = (:) x $ fib y $ x + y
 
-p002 = do
-    sum $ filter even $ takeWhile (<=4000000) $ fib 1 2
+main = do
+    print $ sum $ filter even $ takeWhile (<=4000000) $ fib 1 2

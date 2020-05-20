@@ -32,7 +32,7 @@ maxPath :: [[Int]] -> Int
 maxPath [] = 0
 maxPath ([x]:xs) = x + max (maxPath $ map tail xs) (maxPath $ map init xs)
 
-p018 = do
+main = do
     print $ maxPath [
         [75],
         [95, 64],

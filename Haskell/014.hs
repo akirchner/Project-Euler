@@ -12,17 +12,13 @@
 
 -- NOTE: Once the chain starts the terms are allowed to go above one million.
 
+import Data.List
+
 collatzLength :: Int -> Int
 collatzLength x = f 1 x
     where f n x | x == 1    = n
                 | even x    = f (n + 1) (div x 2)
                 | otherwise = f (n + 1) (3 * x + 1)
 
-maxKey :: Ord b => [(a, b)] -> a
-maxKey (t:ts) = f t ts
-    where f m [] = fst m
-          f m (x:xs) | snd x > snd m = f x xs
-                     | otherwise     = f m xs
-
-p014 = do
-    print $ maxKey $ zip [1..999999] $ map collatzLength [1..999999]
+main = do
+    print $ fst $ maximumBy (\(_, l1) (_, l2) -> compare l1 l2) $ zip [1..999999] $ map collatzLength [1..999999]

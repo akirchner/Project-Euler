@@ -24,5 +24,5 @@ getDivisors x = combine l1 $ reverse l2
           combine xs l@(y:ys) | last xs == y = xs ++ ys
                               | otherwise    = xs ++ l
 
-p012 = do
+main = do
     print $ fst $ head $ dropWhile ((<= 500) . length . snd) $ zip triangleNumbers $ map getDivisors triangleNumbers

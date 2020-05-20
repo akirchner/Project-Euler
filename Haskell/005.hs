@@ -5,5 +5,5 @@
 lcmList :: [Int] -> Int
 lcmList = foldr1 lcm
 
-p005 = do
+main = do
     print $ lcmList [1..20]

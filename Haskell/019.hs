@@ -54,5 +54,5 @@ getInitialSundays x y | isEarlierMonth y x        = 0
                       | getStartingWeekday y == 0 = 1 + (getInitialSundays x $ subtract1Month y)
                       | otherwise                 = getInitialSundays x $ subtract1Month y
 
-p019 = do
+main = do
     print $ getInitialSundays (Date 1901 1 1) (Date 2000 12 31)

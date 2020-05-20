@@ -42,5 +42,5 @@ keepLetters "" = ""
 keepLetters (x:xs) | isLetter x = x : keepLetters xs
                    | otherwise = keepLetters xs
 
-p017 = do
+main = do
     print $ sum $ map (length . keepLetters . written) [1..1000]

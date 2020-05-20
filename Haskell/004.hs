@@ -9,11 +9,5 @@ isPalindromic = isPalindrome . show
           isPalindrome (c:cs) | c == (last cs) = isPalindrome $ init cs
                               | otherwise      = False
 
-maxList :: Ord a => [a] -> a
-maxList (x:xs) = maxList' x xs
-    where maxList' m [] = m
-          maxList' m (n:ns) | n > m     = maxList' n ns
-                            | otherwise = maxList' m ns
-
-p004 = do
-    print $ maxList $ filter isPalindromic [x * y | x <- [100..999], y <- [100..999]]
+main = do
+    print $ maximum $ filter isPalindromic [x * y | x <- [100..999], y <- [100..999]]

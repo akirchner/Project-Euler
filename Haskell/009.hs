@@ -12,5 +12,5 @@ findPythagoreanTriples x = [(a, b, c) | a <- [1..(x-2)], b <- [a..(x-a-1)], let 
 product3Tuple :: Num a => (a, a, a) -> a
 product3Tuple (a, b, c) = a * b * c
 
-p009 = do
+main = do
     print $ product3Tuple $ head $ findPythagoreanTriples 1000

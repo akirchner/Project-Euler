@@ -104,7 +104,7 @@
 get10Digits :: Integer -> Int
 get10Digits = read . (take 10) . show
 
-p013 = do
+main = do
     print $ get10Digits $ sum [
         37107287533902102798797998220837590246510135740250,
         46376937677490009712648124896970078050417018260538,

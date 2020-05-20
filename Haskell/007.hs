@@ -2,13 +2,13 @@
 
 -- What is the 10001st prime number?
 
-isPrime :: Int -> Bool -- change this to use primes.
+isPrime :: Int -> Bool
 isPrime 0 = False
 isPrime 1 = False
 isPrime 2 = True
-isPrime x = not $ or $ map (==0) [mod x p | p <- takeWhile (<= div x 2) primes]
+isPrime x = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegral x)) . fromIntegral) primes]
 
 primes = filter isPrime [1..]
 
-p007 = do
+main = do
     print $ primes !! 10000
