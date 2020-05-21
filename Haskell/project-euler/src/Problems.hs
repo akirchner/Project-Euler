@@ -10,14 +10,14 @@ import Data.List.Split
 
 -- Find the sum of all the multiples of 3 or 5 below 1000.
 
-merge :: Ord a => [a] -> [a] -> [a]
-merge xs [] = xs
-merge [] ys = ys
-merge xx@(x:xs) yy@(y:ys) | x == y = x : merge xs ys
-                          | x < y  = x : merge xs yy
-                          | y < x  = y : merge xx ys
+mergeNoDups :: Ord a => [a] -> [a] -> [a]
+mergeNoDups xs [] = xs
+mergeNoDups [] ys = ys
+mergeNoDups xx@(x:xs) yy@(y:ys) | x == y = x : mergeNoDups xs ys
+                                | x < y  = x : mergeNoDups xs yy
+                                | y < x  = y : mergeNoDups xx ys
 
-p001 = sum $ merge [3, 6..999] [5, 10..999]
+p001 = sum $ mergeNoDups [3, 6..999] [5, 10..999]
 
 
 -- Problem 2
@@ -28,10 +28,10 @@ p001 = sum $ merge [3, 6..999] [5, 10..999]
 
 -- By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
-fib :: Num a => a -> a -> [a]
-fib x y = (:) x $ fib y $ x + y
+genFibs :: Num a => a -> a -> [a]
+genFibs x y = (:) x $ genFibs y $ x + y
 
-p002 = sum $ filter even $ takeWhile (<=4000000) $ fib 1 2
+p002 = sum $ filter even $ takeWhile (<=4000000) $ genFibs 1 2
 
 
 -- Problem 3
@@ -79,10 +79,7 @@ p004 = maximum $ filter isPalindromic [x * y | x <- [100..999], y <- [100..999]]
 
 -- What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
-lcmList :: [Int] -> Int
-lcmList = foldr1 lcm
-
-p005 = lcmList [1..20]
+p005 = foldr1 lcm [1..20]
 
 
 -- Problem 6
@@ -564,42 +561,42 @@ p016 = sum $ getDigits $ 2 ^ 1000
 -- NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen)
 -- contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
 
-written :: Int -> String
-written 1    = "one"
-written 2    = "two"
-written 3    = "three"
-written 4    = "four"
-written 5    = "five"
-written 6    = "six"
-written 7    = "seven"
-written 8    = "eight"
-written 9    = "nine"
-written 10   = "ten"
-written 11   = "eleven"
-written 12   = "twelve"
-written 13   = "thirteen"
-written 15   = "fifteen"
-written 18   = "eighteen"
-written 20   = "twenty"
-written 30   = "thirty"
-written 40   = "forty"
-written 50   = "fifty"
-written 60   = "sixty"
-written 70   = "seventy"
-written 80   = "eighty"
-written 90   = "ninety"
-written 1000 = "one thousand"
-written x | div x 10 == 1 = written (mod x 10) ++ "teen"
-          | x < 100       = written (10 * div x 10) ++ '-' : written (mod x 10)
-          | otherwise     = written (div x 100) ++ " hundred" ++ case mod x 100 of 0 -> ""
-                                                                                   x -> " and " ++ written x
+writtenInt :: Int -> String
+writtenInt 1    = "one"
+writtenInt 2    = "two"
+writtenInt 3    = "three"
+writtenInt 4    = "four"
+writtenInt 5    = "five"
+writtenInt 6    = "six"
+writtenInt 7    = "seven"
+writtenInt 8    = "eight"
+writtenInt 9    = "nine"
+writtenInt 10   = "ten"
+writtenInt 11   = "eleven"
+writtenInt 12   = "twelve"
+writtenInt 13   = "thirteen"
+writtenInt 15   = "fifteen"
+writtenInt 18   = "eighteen"
+writtenInt 20   = "twenty"
+writtenInt 30   = "thirty"
+writtenInt 40   = "forty"
+writtenInt 50   = "fifty"
+writtenInt 60   = "sixty"
+writtenInt 70   = "seventy"
+writtenInt 80   = "eighty"
+writtenInt 90   = "ninety"
+writtenInt 1000 = "one thousand"
+writtenInt x | div x 10 == 1 = writtenInt (mod x 10) ++ "teen"
+             | x < 100       = writtenInt (10 * div x 10) ++ '-' : writtenInt (mod x 10)
+             | otherwise     = writtenInt (div x 100) ++ " hundred" ++ case mod x 100 of 0 -> ""
+                                                                                         x -> " and " ++ writtenInt x
 
 keepLetters :: String -> String
 keepLetters "" = ""
 keepLetters (x:xs) | isLetter x = x : keepLetters xs
                    | otherwise = keepLetters xs
 
-p017 = sum $ map (length . keepLetters . written) [1..1000]
+p017 = sum $ map (length . keepLetters . writtenInt) [1..1000]
 
 
 -- Problem 18
@@ -771,9 +768,9 @@ p021 = sum $ filter isAmicable [1..9999]
 
 -- What is the total of all the name scores in the file?
 
-score :: String -> Int
-score = sum . map cScore
-    where cScore c = ord c - ord 'A' + 1
+stringValue :: String -> Int
+stringValue = sum . map cValue
+    where cValue c = ord c - ord 'A' + 1
 
 p022 :: String -> Int
-p022 fileContents = sum $ zipWith (\p s -> p * score s) [1..] $ sort $ filter ((>0) . length) $ splitOn "," $ filter (/= '\"') fileContents
+p022 fileContents = sum $ zipWith (\p s -> p * stringValue s) [1..] $ sort $ filter ((>0) . length) $ splitOn "," $ filter (/= '\"') fileContents
