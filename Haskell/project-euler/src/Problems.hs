@@ -904,3 +904,26 @@ genQuadratic :: Int -> Int -> Int -> Int -> Int
 genQuadratic a b c x = a * (x^2) + b * x + c
 
 p027 = uncurry (*) . snd . maximumBy (\(x,_) (y,_) -> compare x y) $ [ (numConsecutivePrimes (genQuadratic 1 a b), (a, b)) | a <- [(-999)..999], b <- [(-1000)..1000] ]
+
+
+-- Problem 28
+-- Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed as follows:
+
+-- 21 22 23 24 25
+-- 20  7  8  9 10
+-- 19  6  1  2 11
+-- 18  5  4  3 12
+-- 17 16 15 14 13
+
+-- It can be verified that the sum of the numbers on the diagonals is 101.
+
+-- What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
+
+sumSpiralDiagonals :: Int -> Int
+sumSpiralDiagonals dim = sum $ sDiags dim
+    where sDiags 0 = []
+          sDiags 1 = [1]
+          sDiags n = let s = sDiags (n - 2)
+                     in (reverse . tail . take 5 $ iterate (+ (n - 1)) (head s)) ++ s
+
+p028 = sumSpiralDiagonals 1001
