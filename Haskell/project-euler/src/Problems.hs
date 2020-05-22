@@ -41,10 +41,9 @@ p002 = sum $ filter even $ takeWhile (<=4000000) $ genFibs 1 2
 -- What is the largest prime factor of the number 600851475143 ?
 
 isPrime :: Int -> Bool
-isPrime 0 = False
-isPrime 1 = False
 isPrime 2 = True
-isPrime x = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegral x)) . fromIntegral) primes]
+isPrime x | x < 2     = False
+          | otherwise = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegral x)) . fromIntegral) primes]
 
 primes = filter isPrime [1..]
 
@@ -878,3 +877,29 @@ numReciprocalDigits :: Int -> Int
 numReciprocalDigits = multiplicativeOrder 10 . makeCoprimeTo 10
 
 p026 = fst . maximumBy (\(_, x) (_, y) -> compare x y) . zip [2..999] $ map numReciprocalDigits [2..999]
+
+
+-- Problem 27
+-- Euler discovered the remarkable quadratic formula:
+
+-- n^2+n+41
+-- It turns out that the formula will produce 40 primes for the consecutive integer values 0≤n≤39. However, when n=40,40^2+40+41=40^(40+1)+41 is divisible by 41,
+-- and certainly when n=41,41^2+41+41 is clearly divisible by 41.
+
+-- The incredible formula n^2−79n+1601 was discovered, which produces 80 primes for the consecutive values 0≤n≤79. The product of the coefficients, −79 and 1601, is −126479.
+
+-- Considering quadratics of the form:
+
+-- n^2+an+b, where |a|<1000 and |b|≤1000
+
+-- where |n| is the modulus/absolute value of n
+-- e.g. |11|=11 and |−4|=4
+-- Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n=0.
+
+numConsecutivePrimes :: (Int -> Int) -> Int
+numConsecutivePrimes f = length . takeWhile isPrime . map f $ [0..]
+
+genQuadratic :: Int -> Int -> Int -> Int -> Int
+genQuadratic a b c x = a * (x^2) + b * x + c
+
+p027 = uncurry (*) . snd . maximumBy (\(x,_) (y,_) -> compare x y) $ [ (numConsecutivePrimes (genQuadratic 1 a b), (a, b)) | a <- [(-999)..999], b <- [(-1000)..1000] ]
