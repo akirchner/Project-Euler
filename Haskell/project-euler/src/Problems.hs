@@ -3,6 +3,7 @@ module Problems where
 import Data.Char
 import Data.List
 import Data.List.Split
+import Data.Numbers.Primes
 
 -- Problem 1
 
@@ -40,15 +41,15 @@ p002 = sum $ filter even $ takeWhile (<=4000000) $ genFibs 1 2
 
 -- What is the largest prime factor of the number 600851475143 ?
 
-isPrime :: Int -> Bool
-isPrime 2 = True
-isPrime x | x < 2     = False
-          | otherwise = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegral x)) . fromIntegral) primes]
+isPrime' :: Int -> Bool
+isPrime' 2 = True
+isPrime' x | x < 2     = False
+          | otherwise = not $ or $ map (==0) [mod x p | p <- takeWhile ((<= sqrt (fromIntegral x)) . fromIntegral) primes']
 
-primes = filter isPrime [1..]
+primes' = filter isPrime' [1..]
 
-primeFactors :: Int -> [Int]
-primeFactors x = checkFactors x primes
+primeFactors' :: Int -> [Int]
+primeFactors' x = checkFactors x primes'
     where checkFactors 1 _ = []
           checkFactors n pp@(p:ps) | mod n p == 0 = p : checkFactors (div n p) pp
                                    | otherwise    = checkFactors n ps
